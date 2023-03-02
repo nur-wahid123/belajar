@@ -34,7 +34,7 @@ class AdminController extends Controller
     public function index()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.Dashboard');
+            return redirect()->route('admin.dashboard');
         }
         $info = Info::where('id', 1)->get();
         $a = Auth::guard('admin')->check();
@@ -47,16 +47,16 @@ class AdminController extends Controller
     //End Function
 
     //fungsi data dashboard
-    public function dashboard(Request $req)
+    public function dashboard()
     {
         $ses = Auth::guard('admin')->user();
         $data = new KelasCollection(Kelas::paginate(20));
         // Auth::guard('admin')->logout();
-        $a = Auth::guard('admin')->check();
+        // $a = Auth::guard('admin')->check();
         return Inertia::render('AdminDashboard', [
             'ses' => $ses,
             'data' => $data,
-            'a' => $a,
+            // 'a' => $a,
         ]);
         //keamanan lagi
     }
@@ -258,10 +258,13 @@ class AdminController extends Controller
     //function for settings
     public function atur()
     {
-        dd(Auth::guard('admin')->check());
         $ses = Auth::guard('admin')->user();
+        $a = Info::all();
+        // dd($a[2]->value);
         return Inertia::render('Atur', [
             'ses' => $ses,
+            'a' => $a[3]->value,
+            'b' => $a[2]->value,
         ]);
     }
 
@@ -272,25 +275,29 @@ class AdminController extends Controller
     //function for upload
     public function upload(Request $req)
     {
+        $date = $req->tanggal;
+        Info::where('id', 3)->update(['value' => $date]);
         $text = $req->text;
         if ($text != null) {
             Info::where('id', 1)->update(['value' => $text]);
         }
         $file = $req->file('selectedFile');
-        if ($file == null) {
-            return redirect()->back()->withErrors(1);
-        } else if ($file->getSize() > 2500000) {
+        if ($file != null) {
+            $ext = $file->getClientOriginalExtension();
+            if ($ext != "jpg" && $ext != "png" && $ext != "avif" && $ext != "jpeg") {
+                return redirect()->back()->withErrors(2);
+            }
+            if ($file->getSize() > 2500000) {
 
-            return redirect()->back()->withErrors(3);
+                return redirect()->back()->withErrors(3);
+            }
+            $gambar = Info::where('id', 2)->get();
+            File::delete(public_path('asetkubro/' . $gambar[0]->value));
+            Info::where('id', 2)->update(['value' => $file->getClientOriginalName()]);
+            $file->move(public_path('asetkubro'), $file->getClientOriginalName());
+            return redirect()->route('admin.dashboard');
         }
-        $ext = $file->getClientOriginalExtension();
-        if ($ext != "jpg" && $ext != "png" && $ext != "avif" && $ext != "jpeg") {
-            return redirect()->back()->withErrors(2);
-        }
-        $gambar = Info::where('id', 2)->get();
-        File::delete(public_path('asetkubro/' . $gambar[0]->value));
-        Info::where('id', 2)->update(['value' => $file->getClientOriginalName()]);
-        $file->move(public_path('asetkubro'), $file->getClientOriginalName());
+        return redirect()->route('admin.dashboard');
     }
 
 
@@ -301,6 +308,17 @@ class AdminController extends Controller
     public function logo()
     {
         $info = Info::where('id', 2)->get();
+        return response()->json($info[0]);
+    }
+
+
+    //deadline
+
+
+    //fungsi ambil deadline
+    public function deadline()
+    {
+        $info = Info::where('id', 3)->get();
         return response()->json($info[0]);
     }
 }

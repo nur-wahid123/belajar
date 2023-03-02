@@ -130,6 +130,9 @@ Route::get('/template', function () {
 //route get logo
 Route::get('/logo', [AdminController::class, 'logo'])->name('logo');
 
+//route get deadline
+Route::get('/deadline', [AdminController::class, 'deadline'])->name('deadline');
+
 //route admin
 Route::prefix('admin')->group(function () {
     //route login admin

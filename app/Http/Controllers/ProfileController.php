@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Info;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -34,6 +35,11 @@ class ProfileController extends Controller
     {
         // dd($any);
         // dd($data);
+        // $dan = date('Y-m-d');
+        // $deadline = Info::where('id',3)->get('value');
+        // if(strtotime($dan)>strtotime($deadline)){
+        //     return redirect()->back()->withErrors(1);
+        // }
         DB::table('datakeseluruhan')->where('NO', $id)->update([
             'pilihan' => $any,
         ]);

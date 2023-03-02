@@ -1,11 +1,13 @@
 import AdminAuthNav from '@/Layouts/AdminAuthNav'
 import { Head, router } from '@inertiajs/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import hrini from './tanggal'
 
 const Atur = (props) => {
     const [file, setFile] = useState({
         selectedFile: null,
         text: null,
+        tanggal: null,
     })
     const importFile = (e) => {
         e.preventDefault()
@@ -18,9 +20,13 @@ const Atur = (props) => {
     }
     const inputText = (e) => {
         setFile({ ...file, text: e.target.value })
-        // console.log(file)
     }
-
+    const inputDate = (e) => {
+        setFile({ ...file, tanggal: e.target.value })
+    }
+    useEffect(() => {
+        setFile({ ...file, tanggal: props.b })
+    }, []);
     return (
         <div>
             <AdminAuthNav props={props} />
@@ -48,6 +54,10 @@ const Atur = (props) => {
                         <span className='label-text'>Edit Nama SMA</span>
                     </label>
                     <input onChange={inputText} className='input input-bordered w-full max-w-xs' type="text" name="file" id="file" />
+                    <label className='label'>
+                        <span className='label-text'>Atur Deadline Tugas</span>
+                    </label>
+                    <input onChange={inputDate} className='input input-bordered w-full max-w-xs' type="date" min={hrini} max={props.a} value={file.tanggal == null ? "2023-01-01" : file.tanggal} name="file" id="file" />
                     <button className='btn btn-success' onClick={importFile}>Submit</button>
                 </form>
             </div>
