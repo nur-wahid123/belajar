@@ -1,0 +1,47 @@
+GET http://localhost:5000/users
+Authorization: Bearer 
+###
+POST   http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name":"Indra bro",
+    "email":"halo",
+    "password":"123",
+    "confPassword":"123"
+}
+###
+POST   http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email":"13186",
+    "password":"0069348822"
+}
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout
+###
+POST  http://localhost:5000/hapusData
+Content-Type: application/json
+
+{
+    "email":"13186",
+    "password":"0069348822"
+}
+
+###
+GET http://localhost:5000/LoginAdmin
+Content-Type: application/json
+
+{
+    "email":"13186",
+    "password":"0069348822"
+}
+###
+GET http://localhost:5000/tokenAdmin
+###
+POST http://localhost:5000/data
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3JJZCI6NiwibmFtZSI6IkFNQU5JTkEgRElOSUtBIEZBREhJTEEiLCJlbWFpbCI6IjEzMTg2IiwiaWF0IjoxNjc4MjMxNTQ5LCJleHAiOjE2NzgyMzE1NjR9.XPG7S4MDFaSEyQ1bt4ymmGp97SQv8MFbUMZ6hRxOEss
