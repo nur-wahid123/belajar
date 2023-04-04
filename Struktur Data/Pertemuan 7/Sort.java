@@ -17,7 +17,6 @@ public class Sort {
         for (int i = 1; i < data.length; i++) {
             temp = data[i];
             j = i - 1;
-            // System.out.println(j);
             while (j >= 0 && data[j] > temp) {
                 data[j + 1] = data[j];
                 j--;
