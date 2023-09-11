@@ -19,7 +19,7 @@ public class Buku {
     }
 
     void tampil() {
-        System.out.println("Nama Buku : " + nama);
+        System.out.println("Nama Bukuku : " + nama);
         System.out.println("Pengarang Buku : " + pengarang);
         System.out.println("Penerbit : " + penerbit);
         System.out.println("Harga Satuan : " + hargaSatuan);
